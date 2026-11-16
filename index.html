@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign-up Board</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Sign-up Board</h1>
+    <p>Add your name to the board. Use a made-up name and email only.</p>
+  </header>
+
+  <main>
+    <section class="card" aria-labelledby="form-title">
+      <h2 id="form-title">Join the board</h2>
+      <form id="signup-form" novalidate>
+        <label for="name-input">Name</label>
+        <input id="name-input" type="text" maxlength="80" autocomplete="off" placeholder="Asha Testname" required>
+
+        <label for="email-input">Email</label>
+        <input id="email-input" type="email" maxlength="200" autocomplete="off" placeholder="asha@example.com" required>
+
+        <button type="submit" id="submit-button">Sign up</button>
+      </form>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="card" aria-labelledby="list-title">
+      <h2 id="list-title">On the board</h2>
+      <ul id="entry-list" class="entry-list">
+        <li class="empty">The list is not built yet.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="bottom">
+    <p>A practice project. Every name here is made up.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
