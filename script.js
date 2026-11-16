@@ -143,6 +143,10 @@ async function loadList() {
 
 // ===== FEATURE 3: explain a refusal =====
 function explainRefusal(status, body) {
+  // 23505 is the database code for "this must be unique, and it is already there".
+  if (body.code === "23505") {
+    return "That email is already on the board.";
+  }
   return "Sorry, that did not save. The database said: " + (body.message || "error " + status);
 }
 // ===== END OF FEATURE 3 =====

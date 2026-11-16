@@ -32,4 +32,7 @@ create policy "Anyone can read the board"
 grant select, insert on public.signups to anon;
 revoke update, delete, truncate on public.signups from anon;
 
--- 5. FEATURE 3 goes here (guide/03-feature-3.md).
+-- 5. FEATURE 3: one sign-up per email, even in capital letters.
+--    lower(email) turns ASHA@Example.com into asha@example.com before comparing.
+create unique index if not exists signups_email_once
+  on public.signups (lower(email));
