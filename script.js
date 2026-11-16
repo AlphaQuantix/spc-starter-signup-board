@@ -102,7 +102,41 @@ async function saveSignup(entry) {
 
 // ===== FEATURE 2: show the list =====
 async function loadList() {
-  // Not built yet. Follow guide/02-feature-2.md.
+  const address = SUPABASE_URL + "/rest/v1/signups?select=name,created_at&order=created_at.desc,id.desc";
+  let rows;
+  try {
+    const response = await fetch(address, { headers: databaseHeaders() });
+    if (!response.ok) {
+      showMessage("Could not load the list. Run setup.sql again to check the row rules.", "error");
+      return;
+    }
+    rows = await response.json();
+  } catch (error) {
+    showMessage("Could not reach the database. Check the Project URL in script.js.", "error");
+    return;
+  }
+
+  list.replaceChildren(); // empty the list first
+
+  if (rows.length === 0) {
+    const empty = document.createElement("li");
+    empty.className = "empty";
+    empty.textContent = "No one yet. Be the first!";
+    list.appendChild(empty);
+    return;
+  }
+
+  for (const row of rows) {
+    const item = document.createElement("li");
+    const who = document.createElement("strong");
+    who.textContent = row.name;
+    const when = document.createElement("span");
+    when.className = "when";
+    when.textContent = "Joined " + niceTime(row.created_at);
+    item.appendChild(who);
+    item.appendChild(when);
+    list.appendChild(item);
+  }
 }
 // ===== END OF FEATURE 2 =====
 
@@ -142,6 +176,7 @@ form.addEventListener("submit", async function (event) {
   if (result.ok) {
     showMessage("You are on the board.", "ok");
     form.reset();
+    loadList();
   } else {
     showMessage(result.text, "error");
   }
