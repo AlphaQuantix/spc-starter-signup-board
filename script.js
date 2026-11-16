@@ -81,7 +81,21 @@ function niceTime(text) {
 
 // ===== FEATURE 1: save a sign-up =====
 async function saveSignup(entry) {
-  return { ok: false, text: "Saving is not built yet. Follow guide/01-feature-1.md." };
+  const address = SUPABASE_URL + "/rest/v1/signups";
+  try {
+    const response = await fetch(address, {
+      method: "POST",
+      headers: databaseHeaders(),
+      body: JSON.stringify(entry)
+    });
+    if (response.ok) {
+      return { ok: true };
+    }
+    const body = await response.json().catch(function () { return {}; });
+    return { ok: false, text: explainRefusal(response.status, body) };
+  } catch (error) {
+    return { ok: false, text: "Could not reach the database. Check the Project URL in script.js." };
+  }
 }
 // ===== END OF FEATURE 1 =====
 
