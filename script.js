@@ -23,6 +23,7 @@ const SUPABASE_PUBLIC_KEY = "PASTE-YOUR-PUBLIC-ANON-KEY";
 const form = document.getElementById("signup-form");
 const nameInput = document.getElementById("name-input");
 const emailInput = document.getElementById("email-input");
+const courseInput = document.getElementById("course-input");
 const submitButton = document.getElementById("submit-button");
 const messageBox = document.getElementById("message");
 const list = document.getElementById("entry-list");
@@ -102,7 +103,7 @@ async function saveSignup(entry) {
 
 // ===== FEATURE 2: show the list =====
 async function loadList() {
-  const address = SUPABASE_URL + "/rest/v1/signups?select=name,created_at&order=created_at.desc,id.desc";
+  const address = SUPABASE_URL + "/rest/v1/signups?select=name,course,created_at&order=created_at.desc,id.desc";
   let rows;
   try {
     const response = await fetch(address, { headers: databaseHeaders() });
@@ -117,6 +118,7 @@ async function loadList() {
   }
 
   list.replaceChildren(); // empty the list first
+  document.getElementById("list-title").textContent = "On the board (" + rows.length + ")";
 
   if (rows.length === 0) {
     const empty = document.createElement("li");
@@ -132,7 +134,7 @@ async function loadList() {
     who.textContent = row.name;
     const when = document.createElement("span");
     when.className = "when";
-    when.textContent = "Joined " + niceTime(row.created_at);
+    when.textContent = (row.course || "No course given") + " · Joined " + niceTime(row.created_at);
     item.appendChild(who);
     item.appendChild(when);
     list.appendChild(item);
@@ -164,8 +166,14 @@ form.addEventListener("submit", async function (event) {
 
   const entry = {
     name: nameInput.value.trim(),
-    email: emailInput.value.trim()
+    email: emailInput.value.trim(),
+    course: courseInput.value
   };
+
+  if (entry.course === "") {
+    showMessage("Please choose a course.", "error");
+    return;
+  }
 
   if (entry.name === "" || !entry.email.includes("@")) {
     showMessage("Please type a name and an email with an @ in it.", "error");

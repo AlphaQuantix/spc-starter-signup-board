@@ -36,3 +36,11 @@ revoke update, delete, truncate on public.signups from anon;
 --    lower(email) turns ASHA@Example.com into asha@example.com before comparing.
 create unique index if not exists signups_email_once
   on public.signups (lower(email));
+
+-- 6. STRETCH: a course for each person.
+alter table public.signups
+  add column if not exists course text
+  check (course in ('BBA', 'B.Com', 'BCA', 'BSc Psychology', 'Other'));
+
+-- Tell the Data API to notice the new column straight away.
+notify pgrst, 'reload schema';
