@@ -13,8 +13,8 @@
 // The public key is called "publishable" (starts with sb_publishable_)
 // or "anon" (a long text that starts with eyJ).
 // NEVER paste the secret key (sb_secret_...) or the service_role key here.
-const SUPABASE_URL = "PASTE-YOUR-PROJECT-URL";
-const SUPABASE_PUBLIC_KEY = "PASTE-YOUR-PUBLIC-ANON-KEY";
+const SUPABASE_URL = "https://owppvtsmrcpbptzfrvlm.supabase.co";
+const SUPABASE_PUBLIC_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cHB2dHNtcmNwYnB0emZydmxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ5MzY1MjUsImV4cCI6MjExMDUxMjUyNX0.Xit1-o4hFwETXKwTPa7KwGgrnqmvcCM2kbfJUP68ZWk";
 // ===== END OF YOUR SETTINGS =====
 
 
